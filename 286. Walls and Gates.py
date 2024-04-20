@@ -3,29 +3,25 @@ class Solution:
         """
         Do not return anything, modify rooms in-place instead.
         """
-        # queue = deque()
-        def inBounds(i,j,rows,cols):
-            if i >= 0 and i < rows and j >= 0 and j < cols:
-                return True
-            return False
+        rows = len(rooms)
+        cols = len(rooms[0])
 
-        def dfs(i,j,steps):
-            if not inBounds(i,j,len(rooms),len(rooms[0])) or rooms[i][j] == -1:
+        def dfs(i,j,dist):
+            if i < 0 or j < 0 or i>= rows or j>=cols or rooms[i][j] <= dist+1 or rooms[i][j] <= 0:
                 return
             
-            if rooms[i][j] !=0 and rooms[i][j] > 1+steps:
-                # steps += 1
-                rooms[i][j] = min(rooms[i][j], steps+1)
-                dfs(i+1,j,steps+1)
-                dfs(i-1,j,steps+1)
-                dfs(i,j+1,steps+1)
-                dfs(i,j-1,steps+1)
-            
-        steps = 0
-        for i in range(len(rooms)):
-            for j in range(len(rooms[0])):
+            rooms[i][j] = dist + 1
+
+            dfs(i+1,j,dist +1)
+            dfs(i-1,j,dist +1)
+            dfs(i,j+1,dist +1)
+            dfs(i,j-1,dist +1)
+
+        dist = 0
+        for i in range(rows):
+            for j in range(cols):
                 if rooms[i][j] == 0:
-                    dfs(i+1,j,steps)
-                    dfs(i-1,j,steps)
-                    dfs(i,j+1,steps)
-                    dfs(i,j-1,steps)
+                    dfs(i+1,j,dist)
+                    dfs(i-1,j,dist)
+                    dfs(i,j+1,dist)
+                    dfs(i,j-1,dist)
