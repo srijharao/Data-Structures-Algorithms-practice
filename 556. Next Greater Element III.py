@@ -1,21 +1,20 @@
 class Solution:
     def nextGreaterElement(self, n: int) -> int:
-        m = list(str(n))
+        nums = list(str(n))
+        i = len(nums)-1
+        high = len(nums)-1
 
-        j = len(m) -1
-
-        while j > 0 and m[j-1] >= m[j]:
-            j -= 1
+        while i > 0 and nums[i-1] >= nums[i]:
+            i -= 1
         
-        if j==0:
+        if i ==0:
             return -1
 
-        high = len(m)-1
-        while high > j - 1 and m[high] <= m[j-1]:
-            high -=1
+        while high > i-1 and nums[high] <= nums[i-1]:
+            high -= 1
+        
+        nums[high] , nums[i-1] = nums[i-1] , nums[high]
+        nums[i:] = nums[i:][::-1]
 
-        m[high], m[j-1] = m[j-1], m[high]
-        m[j:] = m[j:][::-1]
-
-        s = int("".join(m))
-        return s if s <= 2**31 -1 else -1
+        retVal = int("".join(nums))
+        return retVal if retVal <= 2**31-1 else -1
