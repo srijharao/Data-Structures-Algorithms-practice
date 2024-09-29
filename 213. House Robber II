@@ -1,0 +1,18 @@
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        if len(nums) == 1:
+            return nums[0]
+        if len(nums) == 2:
+            return max(nums[1], nums[0])
+
+        def robber(nums):
+            maxarr = [0] * len(nums)
+            maxarr[0] = nums[0]
+            maxarr[1] = max(nums[1], nums[0])
+
+            for i in range(2, len(nums)):
+                maxarr[i] = max(maxarr[i-1], nums[i]+maxarr[i-2])
+            
+            return maxarr[-1]
+
+        return max(robber(nums[:-1]), robber(nums[1:]))
