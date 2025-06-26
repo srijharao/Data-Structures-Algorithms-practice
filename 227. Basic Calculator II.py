@@ -1,24 +1,27 @@
 class Solution:
     def calculate(self, s: str) -> int:
+
         stack = []
-        op = '+'
         curr = 0
+        prev_op = '+'
 
         for c in s + '+':
-            if c == ' ':
+            if c == " ":
                 continue
             if c.isdigit():
                 curr = curr * 10 + int(c)
             else:
-                if op == '+':
+                if prev_op == '+':
                     stack.append(curr)
-                elif op == '-':
-                    stack.append(-curr)
-                elif op == '/':
+                elif prev_op == '-':
+                    stack.append(-1 * curr)
+                elif prev_op == '/':
                     stack.append(int(stack.pop()/curr))
-                elif op == '*':
-                    stack.append(stack.pop() * curr)
-                op = c
+                elif prev_op == '*':
+                    stack.append(stack.pop()*curr)
+                prev_op = c
                 curr = 0
-            
+        
         return sum(stack)
+
+        
